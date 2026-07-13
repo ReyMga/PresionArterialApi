@@ -18,6 +18,7 @@ public class MedicionService : IMedicionService
     public async Task<List<MedicionDto>> ObtenerTodasAsync()
     {
         return await _context.Mediciones
+            .OrderBy(m => m.FechaHora)
             .Select(m => new MedicionDto
             {
                 Id = m.Id,
@@ -117,6 +118,30 @@ public class MedicionService : IMedicionService
             AtenololMg = medicion.AtenololMg,
             Observaciones = medicion.Observaciones
         };
+    }
+
+    public async Task<List<MedicionDto>> FiltrarPorFechaAsync(
+        DateTime desde,
+        DateTime hasta)
+    {
+        return await _context.Mediciones
+            .Where(m =>
+                m.FechaHora >= desde &&
+                m.FechaHora <= hasta)
+            .OrderBy(m => m.FechaHora)
+            .Select(m => new MedicionDto
+            {
+                Id = m.Id,
+                FechaHora = m.FechaHora,
+                PresionSistolica = m.PresionSistolica,
+                PresionDiastolica = m.PresionDiastolica,
+                Temperatura = m.Temperatura,
+                Humedad = m.Humedad,
+                ValsartanMg = m.ValsartanMg,
+                AtenololMg = m.AtenololMg,
+                Observaciones = m.Observaciones
+            })
+            .ToListAsync();
     }
 
     public async Task<bool> EliminarAsync(int id)

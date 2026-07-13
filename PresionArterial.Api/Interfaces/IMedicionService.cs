@@ -16,4 +16,9 @@ public interface IMedicionService
     );
 
     Task<bool> EliminarAsync(int id);
+
+    Task<List<MedicionDto>> FiltrarPorFechaAsync(
+        DateTime desde,
+        DateTime hasta
+    );
 }
