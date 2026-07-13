@@ -24,3 +24,34 @@ API REST desarrollada con ASP.NET Core y Entity Framework Core para registrar y 
 - POST /api/Mediciones
 - PUT /api/Mediciones/{id}
 - DELETE /api/Mediciones/{id}
+## Cómo ejecutar el proyecto
+
+1. Clonar el repositorio
+
+```bash
+git clone https://github.com/ReyMga/PresionArterialApi.git
+```
+
+2. Restaurar paquetes
+
+```bash
+dotnet restore
+```
+
+3. Ejecutar las migraciones
+
+```bash
+dotnet ef database update
+```
+
+4. Ejecutar la API
+
+```bash
+dotnet run
+```
+
+5. Abrir Swagger
+
+```
+http://localhost:5222/swagger
+```
