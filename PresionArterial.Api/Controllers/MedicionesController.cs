@@ -36,6 +36,28 @@ public async Task<ActionResult<IEnumerable<PromedioDiarioDto>>>
 
     return Ok(promedios);
 }
+
+// GET: api/mediciones/promedios-franja?desde=2026-07-01&hasta=2026-07-31
+[HttpGet("promedios-franja")]
+public async Task<ActionResult<IEnumerable<PromedioFranjaDto>>> ObtenerPromediosPorFranja(
+    [FromQuery] DateTime desde,
+    [FromQuery] DateTime hasta)
+{
+    if (desde > hasta)
+    {
+        return BadRequest(new
+        {
+            mensaje = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'."
+        });
+    }
+
+    var promedios = await _service.ObtenerPromediosPorFranjaAsync(
+        desde,
+        hasta);
+
+    return Ok(promedios);
+}
+
 // GET: api/mediciones
 [HttpGet]
     public async Task<ActionResult<IEnumerable<MedicionDto>>> GetMediciones()

@@ -29,5 +29,10 @@ public interface IMedicionService
     Task<List<PromedioDiarioDto>> ObtenerPromediosDiariosAsync(
     DateTime desde,
     DateTime hasta
-);
+    );
+    Task<List<PromedioFranjaDto>> ObtenerPromediosPorFranjaAsync(
+    DateTime desde,
+    DateTime hasta
+    );
+    
 }
