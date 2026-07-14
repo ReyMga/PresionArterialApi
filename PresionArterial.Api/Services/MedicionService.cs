@@ -149,6 +149,24 @@ public async Task<EstadisticasMedicionDto?> ObtenerEstadisticasAsync(
             .AverageAsync(m => m.Humedad)
     };
 }
+
+public async Task<List<PromedioDiarioDto>> ObtenerPromediosDiariosAsync(
+    DateTime desde,
+    DateTime hasta)
+{
+    return await _context.Mediciones
+        .Where(m => m.FechaHora >= desde && m.FechaHora <= hasta)
+        .GroupBy(m => m.FechaHora.Date)
+        .Select(grupo => new PromedioDiarioDto
+        {
+            Fecha = grupo.Key,
+            PromedioSistolica = grupo.Average(m => m.PresionSistolica),
+            PromedioDiastolica = grupo.Average(m => m.PresionDiastolica),
+            CantidadMediciones = grupo.Count()
+        })
+        .OrderBy(resultado => resultado.Fecha)
+        .ToListAsync();
+}
     public async Task<bool> EliminarAsync(int id)
     {
         var medicion = await _context.Mediciones.FindAsync(id);

@@ -15,8 +15,29 @@ public class MedicionesController : ControllerBase
         _service = service;
     }
 
-    // GET: api/mediciones
-    [HttpGet]
+// GET: api/mediciones/promedios-diarios?desde=2026-07-01&hasta=2026-07-31
+[HttpGet("promedios-diarios")]
+public async Task<ActionResult<IEnumerable<PromedioDiarioDto>>>
+    ObtenerPromediosDiarios(
+        [FromQuery] DateTime desde,
+        [FromQuery] DateTime hasta)
+{
+    if (desde > hasta)
+    {
+        return BadRequest(new
+        {
+            mensaje = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'."
+        });
+    }
+
+    var promedios = await _service.ObtenerPromediosDiariosAsync(
+        desde,
+        hasta);
+
+    return Ok(promedios);
+}
+// GET: api/mediciones
+[HttpGet]
     public async Task<ActionResult<IEnumerable<MedicionDto>>> GetMediciones()
     {
         var mediciones = await _service.ObtenerTodasAsync();
@@ -70,8 +91,8 @@ public async Task<ActionResult<EstadisticasMedicionDto>> ObtenerEstadisticas(
     return Ok(estadisticas);
 }
 
-    // GET: api/mediciones/5
-    [HttpGet("{id:int}")]
+// GET: api/mediciones/5
+[HttpGet("{id:int}")]
     public async Task<ActionResult<MedicionDto>> GetMedicion(int id)
     {
         var medicion = await _service.ObtenerPorIdAsync(id);
@@ -100,7 +121,7 @@ public async Task<ActionResult<EstadisticasMedicionDto>> ObtenerEstadisticas(
             medicionCreada);
     }
 
-    // PUT: api/mediciones/5
+// PUT: api/mediciones/5
 [HttpPut("{id:int}")]
 public async Task<ActionResult<MedicionDto>> PutMedicion(
     int id,
@@ -119,8 +140,8 @@ public async Task<ActionResult<MedicionDto>> PutMedicion(
     return Ok(medicionActualizada);
 }
 
-    // DELETE: api/mediciones/5
-    [HttpDelete("{id:int}")]
+// DELETE: api/mediciones/5
+[HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMedicion(int id)
     {
         var eliminada = await _service.EliminarAsync(id);

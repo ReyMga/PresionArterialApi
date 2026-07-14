@@ -26,4 +26,8 @@ public interface IMedicionService
         DateTime desde,
         DateTime hasta
     );
+    Task<List<PromedioDiarioDto>> ObtenerPromediosDiariosAsync(
+    DateTime desde,
+    DateTime hasta
+);
 }
