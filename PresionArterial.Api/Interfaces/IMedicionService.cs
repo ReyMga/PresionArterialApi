@@ -21,4 +21,9 @@ public interface IMedicionService
         DateTime desde,
         DateTime hasta
     );
+
+    Task<EstadisticasMedicionDto?> ObtenerEstadisticasAsync(
+        DateTime desde,
+        DateTime hasta
+    );
 }

@@ -42,6 +42,34 @@ public async Task<ActionResult<IEnumerable<MedicionDto>>> FiltrarPorFecha(
 
     return Ok(mediciones);
 }
+
+// GET: api/mediciones/estadisticas?desde=2026-07-01&hasta=2026-07-31
+[HttpGet("estadisticas")]
+public async Task<ActionResult<EstadisticasMedicionDto>> ObtenerEstadisticas(
+    [FromQuery] DateTime desde,
+    [FromQuery] DateTime hasta)
+{
+    if (desde > hasta)
+    {
+        return BadRequest(new
+        {
+            mensaje = "La fecha 'desde' no puede ser posterior a la fecha 'hasta'."
+        });
+    }
+
+    var estadisticas = await _service.ObtenerEstadisticasAsync(desde, hasta);
+
+    if (estadisticas is null)
+    {
+        return NotFound(new
+        {
+            mensaje = "No existen mediciones dentro del período indicado."
+        });
+    }
+
+    return Ok(estadisticas);
+}
+
     // GET: api/mediciones/5
     [HttpGet("{id:int}")]
     public async Task<ActionResult<MedicionDto>> GetMedicion(int id)
