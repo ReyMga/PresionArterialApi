@@ -56,7 +56,7 @@ namespace PresionArterial.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mediciones");
+                    b.ToTable("Mediciones", (string)null);
                 });
 #pragma warning restore 612, 618
         }

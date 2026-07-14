@@ -18,4 +18,8 @@ public class Medicion
     public int AtenololMg { get; set; }
 
     public string? Observaciones { get; set; }
+
+    public int? UsuarioId { get; set; }
+
+    public Usuario? Usuario { get; set; }
 }
